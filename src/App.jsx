@@ -14,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Boards" element={<BoardList />} />
           <Route path="/Boards/:id" element={<BoardDetails />} />
+          <Route path="/*" element={<h1>not correct page</h1>} />
         </Routes>
       </BrowserRouter>
     </div>
