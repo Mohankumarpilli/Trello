@@ -1,0 +1,29 @@
+// Board actions
+export const FETCH_BOARD_REQUEST = 'FETCH_BOARD_REQUEST';
+export const FETCH_BOARD_SUCCESS = 'FETCH_BOARD_SUCCESS';
+export const FETCH_BOARD_FAILURE = 'FETCH_BOARD_FAILURE';
+
+// List actions
+export const FETCH_LISTS_SUCCESS = 'FETCH_LISTS_SUCCESS';
+export const ADD_LIST = 'ADD_LIST';
+export const DELETE_LIST = 'DELETE_LIST';
+
+// Card actions
+export const FETCH_CARDS_SUCCESS = 'FETCH_CARDS_SUCCESS';
+export const ADD_CARD = 'ADD_CARD';
+export const DELETE_CARD = 'DELETE_CARD';
+export const TOGGLE_CARD_COMPLETION = 'TOGGLE_CARD_COMPLETION';
+export const SELECT_CARD = 'SELECT_CARD';
+
+// Checklist actions
+export const FETCH_CHECKLISTS_SUCCESS = 'FETCH_CHECKLISTS_SUCCESS';
+export const ADD_CHECKLIST = 'ADD_CHECKLIST';
+export const DELETE_CHECKLIST = 'DELETE_CHECKLIST';
+export const ADD_CHECKLIST_ITEM = 'ADD_CHECKLIST_ITEM';
+export const DELETE_CHECKLIST_ITEM = 'DELETE_CHECKLIST_ITEM';
+export const TOGGLE_CHECKLIST_ITEM = 'TOGGLE_CHECKLIST_ITEM';
+
+// UI actions
+export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+export const TOGGLE_LIST_FORM = 'TOGGLE_LIST_FORM';
+export const SET_LOADING = 'SET_LOADING';
