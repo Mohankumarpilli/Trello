@@ -6,7 +6,7 @@ const BASE_URL = "https://api.trello.com/1";
 const api = axios.create({
   baseURL: BASE_URL,
   params: {
-    key: import.meta.env.VITE_API_KEY ,
+    key: import.meta.env.VITE_API_KEY,
     token: import.meta.env.VITE_TOKEN,
   },
 });
@@ -14,6 +14,7 @@ const api = axios.create({
 export const trelloApi = {
   //BoardLists endpoints
   getBoardsDetails: () => api.get(`/members/me/boards`),
+  
   // Board endpoints
   getBoardDetails: (boardId) => api.get(`/boards/${boardId}`),
 

@@ -1,6 +1,7 @@
-import * as types from '../types';
+import * as types from "../types";
 
 const initialState = {
+  boards: [],
   board: null,
   lists: [],
   cardsByList: {},
@@ -9,7 +10,7 @@ const initialState = {
   showModal: false,
   showListForm: false,
   loading: true,
-  error: null
+  error: null,
 };
 
 const boardReducer = (state = initialState, action) => {
@@ -17,27 +18,34 @@ const boardReducer = (state = initialState, action) => {
     case types.SET_LOADING:
       return {
         ...state,
-        loading: action.payload
+        loading: action.payload,
+      };
+
+    case types.FETCH_BOARDS_SUCCESS:
+      return {
+        ...state,
+        boards: action.payload,
+        error: null,
       };
 
     case types.FETCH_BOARD_SUCCESS:
       return {
         ...state,
         board: action.payload,
-        error: null
+        error: null,
       };
 
     case types.FETCH_BOARD_FAILURE:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
       };
 
     case types.FETCH_LISTS_SUCCESS:
       return {
         ...state,
-        lists: action.payload
+        lists: action.payload,
       };
 
     case types.ADD_LIST:
@@ -46,27 +54,27 @@ const boardReducer = (state = initialState, action) => {
         lists: [...state.lists, action.payload],
         cardsByList: {
           ...state.cardsByList,
-          [action.payload.id]: []
+          [action.payload.id]: [],
         },
-        showListForm: false
+        showListForm: false,
       };
 
     case types.DELETE_LIST:
       return {
         ...state,
-        lists: state.lists.filter(list => list.id !== action.payload),
+        lists: state.lists.filter((list) => list.id !== action.payload),
         cardsByList: Object.keys(state.cardsByList).reduce((acc, key) => {
           if (key !== action.payload) {
             acc[key] = state.cardsByList[key];
           }
           return acc;
-        }, {})
+        }, {}),
       };
 
     case types.FETCH_CARDS_SUCCESS:
       return {
         ...state,
-        cardsByList: action.payload
+        cardsByList: action.payload,
       };
 
     case types.ADD_CARD:
@@ -76,13 +84,13 @@ const boardReducer = (state = initialState, action) => {
           ...state.cardsByList,
           [action.payload.listId]: [
             ...state.cardsByList[action.payload.listId],
-            action.payload.card
-          ]
+            action.payload.card,
+          ],
         },
         checklistsByCard: {
           ...state.checklistsByCard,
-          [action.payload.card.id]: []
-        }
+          [action.payload.card.id]: [],
+        },
       };
 
     case types.DELETE_CARD:
@@ -90,16 +98,19 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         cardsByList: {
           ...state.cardsByList,
-          [action.payload.listId]: state.cardsByList[action.payload.listId].filter(
-            card => card.id !== action.payload.cardId
-          )
+          [action.payload.listId]: state.cardsByList[
+            action.payload.listId
+          ].filter((card) => card.id !== action.payload.cardId),
         },
-        checklistsByCard: Object.keys(state.checklistsByCard).reduce((acc, key) => {
-          if (key !== action.payload.cardId) {
-            acc[key] = state.checklistsByCard[key];
-          }
-          return acc;
-        }, {})
+        checklistsByCard: Object.keys(state.checklistsByCard).reduce(
+          (acc, key) => {
+            if (key !== action.payload.cardId) {
+              acc[key] = state.checklistsByCard[key];
+            }
+            return acc;
+          },
+          {}
+        ),
       };
 
     case types.TOGGLE_CARD_COMPLETION:
@@ -107,25 +118,26 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         cardsByList: {
           ...state.cardsByList,
-          [action.payload.listId]: state.cardsByList[action.payload.listId].map(card =>
-            card.id === action.payload.cardId
-              ? { ...card, dueComplete: !card.dueComplete }
-              : card
-          )
-        }
+          [action.payload.listId]: state.cardsByList[action.payload.listId].map(
+            (card) =>
+              card.id === action.payload.cardId
+                ? { ...card, dueComplete: !card.dueComplete }
+                : card
+          ),
+        },
       };
 
     case types.FETCH_CHECKLISTS_SUCCESS:
       return {
         ...state,
-        checklistsByCard: action.payload
+        checklistsByCard: action.payload,
       };
 
     case types.SELECT_CARD:
       return {
         ...state,
         selectedCard: action.payload,
-        showModal: true
+        showModal: true,
       };
 
     case types.ADD_CHECKLIST:
@@ -135,9 +147,9 @@ const boardReducer = (state = initialState, action) => {
           ...state.checklistsByCard,
           [action.payload.cardId]: [
             ...state.checklistsByCard[action.payload.cardId],
-            action.payload.checklist
-          ]
-        }
+            action.payload.checklist,
+          ],
+        },
       };
 
     case types.DELETE_CHECKLIST:
@@ -145,10 +157,10 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         checklistsByCard: {
           ...state.checklistsByCard,
-          [action.payload.cardId]: state.checklistsByCard[action.payload.cardId].filter(
-            checklist => checklist.id !== action.payload.checklistId
-          )
-        }
+          [action.payload.cardId]: state.checklistsByCard[
+            action.payload.cardId
+          ].filter((checklist) => checklist.id !== action.payload.checklistId),
+        },
       };
 
     case types.ADD_CHECKLIST_ITEM:
@@ -156,16 +168,17 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         checklistsByCard: {
           ...state.checklistsByCard,
-          [action.payload.cardId]: state.checklistsByCard[action.payload.cardId].map(
-            checklist =>
-              checklist.id === action.payload.checklistId
-                ? {
-                    ...checklist,
-                    checkItems: [...checklist.checkItems, action.payload.item]
-                  }
-                : checklist
-          )
-        }
+          [action.payload.cardId]: state.checklistsByCard[
+            action.payload.cardId
+          ].map((checklist) =>
+            checklist.id === action.payload.checklistId
+              ? {
+                  ...checklist,
+                  checkItems: [...checklist.checkItems, action.payload.item],
+                }
+              : checklist
+          ),
+        },
       };
 
     case types.DELETE_CHECKLIST_ITEM:
@@ -173,18 +186,19 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         checklistsByCard: {
           ...state.checklistsByCard,
-          [action.payload.cardId]: state.checklistsByCard[action.payload.cardId].map(
-            checklist =>
-              checklist.id === action.payload.checklistId
-                ? {
-                    ...checklist,
-                    checkItems: checklist.checkItems.filter(
-                      item => item.id !== action.payload.itemId
-                    )
-                  }
-                : checklist
-          )
-        }
+          [action.payload.cardId]: state.checklistsByCard[
+            action.payload.cardId
+          ].map((checklist) =>
+            checklist.id === action.payload.checklistId
+              ? {
+                  ...checklist,
+                  checkItems: checklist.checkItems.filter(
+                    (item) => item.id !== action.payload.itemId
+                  ),
+                }
+              : checklist
+          ),
+        },
       };
 
     case types.TOGGLE_CHECKLIST_ITEM:
@@ -192,35 +206,39 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         checklistsByCard: {
           ...state.checklistsByCard,
-          [action.payload.cardId]: state.checklistsByCard[action.payload.cardId].map(
-            checklist =>
-              checklist.id === action.payload.checklistId
-                ? {
-                    ...checklist,
-                    checkItems: checklist.checkItems.map(item =>
-                      item.id === action.payload.itemId
-                        ? {
-                            ...item,
-                            state: item.state === 'complete' ? 'incomplete' : 'complete'
-                          }
-                        : item
-                    )
-                  }
-                : checklist
-          )
-        }
+          [action.payload.cardId]: state.checklistsByCard[
+            action.payload.cardId
+          ].map((checklist) =>
+            checklist.id === action.payload.checklistId
+              ? {
+                  ...checklist,
+                  checkItems: checklist.checkItems.map((item) =>
+                    item.id === action.payload.itemId
+                      ? {
+                          ...item,
+                          state:
+                            item.state === "complete"
+                              ? "incomplete"
+                              : "complete",
+                        }
+                      : item
+                  ),
+                }
+              : checklist
+          ),
+        },
       };
 
     case types.TOGGLE_MODAL:
       return {
         ...state,
-        showModal: action.payload
+        showModal: action.payload,
       };
 
     case types.TOGGLE_LIST_FORM:
       return {
         ...state,
-        showListForm: action.payload
+        showListForm: action.payload,
       };
 
     default:

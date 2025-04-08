@@ -1,3 +1,8 @@
+// Boards actions
+export const FETCH_BOARDS_SUCCESS = 'FETCH_BOARDS_SUCCESS';
+export const FETCH_BOARDS_FAILURE = 'FETCH_BOARDS_FAILURE';
+
+
 // Board actions
 export const FETCH_BOARD_REQUEST = 'FETCH_BOARD_REQUEST';
 export const FETCH_BOARD_SUCCESS = 'FETCH_BOARD_SUCCESS';
